@@ -144,7 +144,11 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   const handleRight = () => {
     const maxWager = score;
     if (wager > maxWager || wager <= 0) {
-      setError(`Wager must be between 1 and ${maxWager}`);
+      setError(
+        maxWager === 0
+          ? 'Nothing to wager'
+          : `Wager must be between 1 and ${maxWager}`
+      );
       return;
     }
     setScore(score + wager);
@@ -152,10 +156,13 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   };
 
   const handleWrong = () => {
-    const maxClueValue = 2000;
-    const maxWager = score < maxClueValue ? maxClueValue : score;
+    const maxWager = score;
     if (wager > maxWager || wager <= 0) {
-      setError(`Wager must be between 1 and ${maxWager}`);
+      setError(
+        maxWager === 0
+          ? 'Nothing to wager'
+          : `Wager must be between 1 and ${maxWager}`
+      );
       return;
     }
     setScore(score - wager);
