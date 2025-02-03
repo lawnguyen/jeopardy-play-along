@@ -11,8 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.button.is-selected {
-  background-color: #00d1b2;
-  color: white;
-}
