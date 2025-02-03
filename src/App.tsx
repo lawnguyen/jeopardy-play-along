@@ -57,6 +57,10 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
     resetSelection();
   };
 
+  const handlePass = () => {
+    resetSelection();
+  };
+
   const resetSelection = () => {
     setCurrentValue(null);
     setIsDailyDouble(false);
@@ -114,6 +118,13 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
           disabled={!currentValue && !isDailyDouble}
         >
           ❌ Wrong
+        </button>
+        <button
+          className="button is-warning is-large"
+          onClick={handlePass}
+          disabled={!currentValue && !isDailyDouble}
+        >
+          ⏭️ Pass
         </button>
       </div>
     </div>
