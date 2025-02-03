@@ -131,8 +131,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleRight = () => {
-    const maxClueValue = 2000;
-    const maxWager = score < maxClueValue ? maxClueValue : score;
+    const maxWager = score;
     if (wager > maxWager || wager <= 0) {
       setError(`Wager must be between 1 and ${maxWager}`);
       return;
