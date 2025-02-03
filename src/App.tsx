@@ -64,7 +64,7 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({ setScore, score, values, 
             <input
               className="input is-large"
               type="number"
-              value={wager}
+              value={wager === 0 ? "" : wager}
               onChange={(e) => setWager(Number(e.target.value))}
             />
           </div>
@@ -110,7 +110,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
       <div className="field">
         <label className="label">Wager</label>
         <div className="control">
-          <input className="input is-large" type="number" value={wager} onChange={(e) => setWager(Number(e.target.value))} />
+          <input className="input is-large" type="number" value={wager === 0 ? "" : wager} onChange={(e) => setWager(Number(e.target.value))} />
         </div>
       </div>
       <div className="field">
