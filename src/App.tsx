@@ -19,26 +19,40 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
   const [currentValue, setCurrentValue] = useState<number | null>(null);
   const [isDailyDouble, setIsDailyDouble] = useState<boolean>(false);
   const [wager, setWager] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+  const MAX_CLUE_VALUE = roundName === 'Double Jeopardy!' ? 2000 : 1000;
 
   const handleValueSelect = (value: number) => {
     setCurrentValue(value);
     setIsDailyDouble(false);
     setWager(0);
+    setError(null);
   };
 
   const handleDailyDouble = () => {
     setIsDailyDouble(true);
     setCurrentValue(null);
+    setError(null);
   };
 
   const handleRight = () => {
-    if (isDailyDouble && (wager > score || wager <= 0)) return;
+    const maxWager = score < MAX_CLUE_VALUE ? MAX_CLUE_VALUE : score;
+    console.log(maxWager);
+    console.log(score);
+    if (isDailyDouble && (wager > maxWager || wager <= 0)) {
+      setError(`Wager must be between 1 and ${maxWager}`);
+      return;
+    }
     setScore(score + (isDailyDouble ? wager : currentValue!));
     resetSelection();
   };
 
   const handleWrong = () => {
-    if (isDailyDouble && (wager > score || wager <= 0)) return;
+    const maxWager = score < MAX_CLUE_VALUE ? MAX_CLUE_VALUE : score;
+    if (isDailyDouble && (wager > maxWager || wager <= 0)) {
+      setError(`Wager must be between 1 and ${maxWager}`);
+      return;
+    }
     setScore(score - (isDailyDouble ? wager : currentValue!));
     resetSelection();
   };
@@ -47,6 +61,7 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
     setCurrentValue(null);
     setIsDailyDouble(false);
     setWager(0);
+    setError(null);
   };
 
   return (
@@ -84,20 +99,21 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
           </div>
         </div>
       )}
+      {error && <p className="has-text-danger">{error}</p>}
       <div className="buttons is-centered mt-3">
         <button
           className="button is-success is-large"
           onClick={handleRight}
           disabled={!currentValue && !isDailyDouble}
         >
-          Right
+          ✅ Right
         </button>
         <button
           className="button is-danger is-large"
           onClick={handleWrong}
           disabled={!currentValue && !isDailyDouble}
         >
-          Wrong
+          ❌ Wrong
         </button>
       </div>
     </div>
@@ -112,15 +128,26 @@ interface FinalJeopardyProps {
 const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   const [wager, setWager] = useState<number>(0);
   const [answer, setAnswer] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleRight = () => {
-    if (wager > score || wager <= 0) return;
+    const maxClueValue = 2000;
+    const maxWager = score < maxClueValue ? maxClueValue : score;
+    if (wager > maxWager || wager <= 0) {
+      setError(`Wager must be between 1 and ${maxWager}`);
+      return;
+    }
     setScore(score + wager);
     resetFinal();
   };
 
   const handleWrong = () => {
-    if (wager > score || wager <= 0) return;
+    const maxClueValue = 2000;
+    const maxWager = score < maxClueValue ? maxClueValue : score;
+    if (wager > maxWager || wager <= 0) {
+      setError(`Wager must be between 1 and ${maxWager}`);
+      return;
+    }
     setScore(score - wager);
     resetFinal();
   };
@@ -128,11 +155,12 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   const resetFinal = () => {
     setWager(0);
     setAnswer('');
+    setError(null);
   };
 
   return (
     <div className="section has-text-centered">
-      <h3 className="title is-4">Final Jeopardy</h3>
+      <h3 className="title is-4">Final Jeopardy!</h3>
       <div className="field">
         <label className="label">Wager</label>
         <div className="control">
@@ -155,6 +183,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
           />
         </div>
       </div>
+      {error && <p className="has-text-danger">{error}</p>}
       <div className="buttons is-centered mt-3">
         <button className="button is-success is-large" onClick={handleRight}>
           Right
@@ -190,13 +219,13 @@ const App: React.FC = () => {
       <div className="tabs is-centered is-boxed">
         <ul>
           <li className={view === 'regular' ? 'is-active' : ''}>
-            <a onClick={() => setView('regular')}>Regular Jeopardy</a>
+            <a onClick={() => setView('regular')}>Jeopardy!</a>
           </li>
           <li className={view === 'double' ? 'is-active' : ''}>
-            <a onClick={() => setView('double')}>Double Jeopardy</a>
+            <a onClick={() => setView('double')}>Double Jeopardy!</a>
           </li>
           <li className={view === 'final' ? 'is-active' : ''}>
-            <a onClick={() => setView('final')}>Final Jeopardy</a>
+            <a onClick={() => setView('final')}>Final Jeopardy!</a>
           </li>
         </ul>
       </div>
@@ -205,7 +234,7 @@ const App: React.FC = () => {
           setScore={setScore}
           score={score}
           values={[200, 400, 600, 800, 1000]}
-          roundName="Regular Jeopardy"
+          roundName="Jeopardy!"
         />
       )}
       {view === 'double' && (
@@ -213,7 +242,7 @@ const App: React.FC = () => {
           setScore={setScore}
           score={score}
           values={[400, 800, 1200, 1600, 2000]}
-          roundName="Double Jeopardy"
+          roundName="Double Jeopardy!"
         />
       )}
       {view === 'final' && <FinalJeopardy setScore={setScore} score={score} />}
