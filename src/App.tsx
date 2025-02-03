@@ -66,7 +66,7 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
         ))}
       </div>
       <button
-        className="button is-warning is-large mt-3"
+        className="button is-link is-dark is-large mt-3"
         onClick={handleDailyDouble}
       >
         Daily Double
@@ -145,6 +145,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
         </div>
       </div>
       <div className="field">
+        <label className="label">Answer</label>
         <div className="control">
           <input
             className="input is-large"
@@ -172,13 +173,12 @@ const App: React.FC = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="title has-text-centered">Jeopardy Play-Along</h1>
-      <h2
-        className="subtitle has-text-centered"
-        style={{ fontSize: '3rem', fontWeight: 'bold' }}
+      <h1
+        className="title is-1 has-text-centered"
+        style={{ fontWeight: 'bold' }}
       >
         Total Score: {score}
-      </h2>
+      </h1>
       <div className="has-text-centered mb-4">
         <button
           className="button is-danger is-small"
@@ -187,7 +187,7 @@ const App: React.FC = () => {
           Reset Score
         </button>
       </div>
-      <nav className="tabs is-centered">
+      <div className="tabs is-centered is-boxed">
         <ul>
           <li className={view === 'regular' ? 'is-active' : ''}>
             <a onClick={() => setView('regular')}>Regular Jeopardy</a>
@@ -199,7 +199,7 @@ const App: React.FC = () => {
             <a onClick={() => setView('final')}>Final Jeopardy</a>
           </li>
         </ul>
-      </nav>
+      </div>
       {view === 'regular' && (
         <JeopardyRound
           setScore={setScore}
