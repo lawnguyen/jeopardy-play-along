@@ -88,7 +88,7 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
         className="button is-link is-dark is-large mt-3"
         onClick={handleDailyDouble}
       >
-        Daily Double
+        🎲 Daily Double
       </button>
       {isDailyDouble && (
         <div className="field mt-3">
