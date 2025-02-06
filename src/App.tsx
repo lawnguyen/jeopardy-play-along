@@ -287,12 +287,35 @@ const Modal: React.FC<{
   </div>
 );
 
+const SimpleModal: React.FC<{
+  isActive: boolean;
+  toggleModal: () => void;
+  title: string;
+  children: ReactNode;
+}> = ({ isActive, toggleModal, title, children }) => (
+  <div className={`modal ${isActive ? 'is-active' : ''} pl-4 pr-4`}>
+    <div className="modal-background" onClick={toggleModal}></div>
+    <div className="modal-content">
+      <div className="box">
+        <h3 className="title is-3">{title}</h3>
+        {children}
+      </div>
+    </div>
+    <button
+      className="modal-close is-large"
+      aria-label="close"
+      onClick={toggleModal}
+    ></button>
+  </div>
+);
+
 const App: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [view, setView] = useState<string>('regular');
   const [isAppModalActive, setIsAppModalActive] = useState<boolean>(false);
   const [isHowToPlayModalActive, setIsHowToPlayModalActive] =
     useState<boolean>(false);
+  const [isResetModalActive, setIsResetModalActive] = useState<boolean>(false);
 
   const toggleAppModal = () => {
     setIsAppModalActive(!isAppModalActive);
@@ -300,6 +323,15 @@ const App: React.FC = () => {
 
   const toggleHowToPlayModal = () => {
     setIsHowToPlayModalActive(!isHowToPlayModalActive);
+  };
+
+  const toggleResetModal = () => {
+    setIsResetModalActive(!isResetModalActive);
+  };
+
+  const handleReset = () => {
+    setScore(0);
+    toggleResetModal();
   };
 
   return (
@@ -372,6 +404,21 @@ const App: React.FC = () => {
           </li>
         </ol>
       </Modal>
+      <SimpleModal
+        isActive={isResetModalActive}
+        toggleModal={toggleResetModal}
+        title="Confirm Reset"
+      >
+        <p>Are you sure you want to reset the score?</p>
+        <div className="buttons is-right mt-3">
+          <button className="button is-danger" onClick={handleReset}>
+            Yes, Reset
+          </button>
+          <button className="button" onClick={toggleResetModal}>
+            Cancel
+          </button>
+        </div>
+      </SimpleModal>
       <h1
         className="title is-1 has-text-centered"
         style={{ fontWeight: 'bold' }}
@@ -381,7 +428,7 @@ const App: React.FC = () => {
       <div className="has-text-centered mb-4">
         <button
           className="button is-danger is-small"
-          onClick={() => setScore(0)}
+          onClick={toggleResetModal}
         >
           Reset
         </button>
