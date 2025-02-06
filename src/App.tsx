@@ -86,7 +86,7 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
         ))}
       </div>
       <button
-        className="button is-link is-dark is-large mt-3"
+        className="button is-link is-dark is-large mb-3"
         onClick={handleDailyDouble}
       >
         🎲 Daily Double
@@ -105,27 +105,30 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
         </div>
       )}
       {error && <p className="has-text-danger">{error}</p>}
-      <div className="buttons is-centered mt-3">
+      <div className="buttons is-centered mt-5">
         <button
-          className="button is-success is-large"
+          className="button is-success is-medium"
           onClick={handleRight}
           disabled={!currentValue && !isDailyDouble}
         >
-          ✅ Right
+          <span className="emoji-only">✅</span>
+          <span className="text-only">&nbsp;Right</span>
         </button>
         <button
-          className="button is-danger is-large"
+          className="button is-danger is-medium"
           onClick={handleWrong}
           disabled={!currentValue && !isDailyDouble}
         >
-          ❌ Wrong
+          <span className="emoji-only">❌</span>
+          <span className="text-only">&nbsp;Wrong</span>
         </button>
         <button
-          className="button is-warning is-large"
+          className="button is-warning is-medium"
           onClick={handlePass}
           disabled={!currentValue && !isDailyDouble}
         >
-          ⏭️ Pass
+          <span className="emoji-only">⏭️</span>
+          <span className="text-only">&nbsp;Pass</span>
         </button>
       </div>
     </div>
