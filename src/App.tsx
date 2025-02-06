@@ -177,7 +177,18 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   };
 
   const handleLock = () => {
+    const maxWager = score;
+    if (wager > maxWager || wager <= 0) {
+      setError(
+        maxWager === 0
+          ? 'Nothing to wager'
+          : `Wager must be between 1 and ${maxWager}`
+      );
+      setIsLocked(false);
+      return;
+    }
     setIsLocked(true);
+    setError(null);
   };
 
   const resetFinal = () => {
