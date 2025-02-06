@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
+import AddToHomeScreenImage from './add-to-home-screen.png';
 
 interface JeopardyRoundProps {
   setScore: (score: number) => void;
@@ -229,12 +230,69 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   );
 };
 
+const Modal: React.FC<{ isActive: boolean; toggleModal: () => void }> = ({
+  isActive,
+  toggleModal,
+}) => (
+  <div className={`modal ${isActive ? 'is-active' : ''}`}>
+    <div className="modal-background" onClick={toggleModal}></div>
+    <div className="modal-card">
+      <header className="modal-card-head">
+        <p className="modal-card-title">Use as an App</p>
+        <button
+          className="delete"
+          aria-label="close"
+          onClick={toggleModal}
+        ></button>
+      </header>
+      <section className="modal-card-body">
+        <p>
+          On iOS browsers, click the share button and select "Add to Home
+          Screen".
+        </p>
+        <img
+          className="image mt-4 mb-4"
+          src={AddToHomeScreenImage}
+          alt="On iOS, click share and add to home screen"
+        />
+        <p className="mt-4">
+          Similarly, on Android browsers, find the "Add to Home Screen" or
+          "Install App" option.
+        </p>
+      </section>
+      <footer className="modal-card-foot is-flex is-justify-content-end">
+        <div className="buttons">
+          <button className="button" onClick={toggleModal}>
+            Close
+          </button>
+        </div>
+      </footer>
+    </div>
+    <button
+      className="modal-close is-large"
+      aria-label="close"
+      onClick={toggleModal}
+    ></button>
+  </div>
+);
+
 const App: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [view, setView] = useState<string>('regular');
+  const [isModalActive, setIsModalActive] = useState<boolean>(false);
+
+  const toggleModal = () => {
+    setIsModalActive(!isModalActive);
+  };
 
   return (
     <div className="container mt-5">
+      <div className=" mb-4">
+        <button className="button is-text" onClick={toggleModal}>
+          Use as an App
+        </button>
+      </div>
+      <Modal isActive={isModalActive} toggleModal={toggleModal} />
       <h1
         className="title is-1 has-text-centered"
         style={{ fontWeight: 'bold' }}
