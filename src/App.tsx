@@ -144,7 +144,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   const [wager, setWager] = useState<number>(0);
   const [answer, setAnswer] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [isLocked, setIsLocked] = useState<boolean>(false);
+  const [isRevealed, setIsRevealed] = useState<boolean>(true);
 
   const validateWagerAndAnswer = () => {
     const maxWager = score;
@@ -154,13 +154,13 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
           ? 'Nothing to wager'
           : `Wager must be between 1 and ${maxWager}`
       );
-      setIsLocked(false);
+      setIsRevealed(true);
       return false;
     }
 
     if (answer.trim() === '') {
       setError('Answer cannot be empty');
-      setIsLocked(false);
+      setIsRevealed(true);
       return false;
     }
     return true;
@@ -170,23 +170,33 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
     if (!validateWagerAndAnswer()) {
       return;
     }
-    setScore(score + wager);
-    resetFinal();
+    if (isRevealed) {
+      setScore(score + wager);
+      resetFinal();
+      return;
+    } else {
+      setError('Please reveal the wager and answer first');
+    }
   };
 
   const handleWrong = () => {
     if (!validateWagerAndAnswer()) {
       return;
     }
-    setScore(score - wager);
-    resetFinal();
+    if (isRevealed) {
+      setScore(score - wager);
+      resetFinal();
+      return;
+    } else {
+      setError('Please reveal the wager and answer first');
+    }
   };
 
-  const handleLock = () => {
+  const handleReveal = () => {
     if (!validateWagerAndAnswer()) {
       return;
     }
-    setIsLocked(true);
+    setIsRevealed(!isRevealed);
     setError(null);
   };
 
@@ -194,7 +204,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
     setWager(0);
     setAnswer('');
     setError(null);
-    setIsLocked(false);
+    setIsRevealed(true);
   };
 
   return (
@@ -205,10 +215,10 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
         <div className="control">
           <input
             className="input is-large"
-            type="number"
+            type={isRevealed ? 'text' : 'password'}
             value={wager === 0 ? '' : wager}
             onChange={(e) => setWager(Number(e.target.value))}
-            disabled={isLocked}
+            disabled={!isRevealed}
           />
         </div>
       </div>
@@ -217,19 +227,18 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
         <div className="control">
           <input
             className="input is-large"
-            type="text"
+            type={isRevealed ? 'text' : 'password'}
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            disabled={isLocked}
+            disabled={!isRevealed}
           />
         </div>
       </div>
       <button
         className="button is-small is-info is-light mt-2"
-        onClick={handleLock}
-        disabled={isLocked}
+        onClick={handleReveal}
       >
-        {isLocked ? '🔒 Locked in' : '🔓 Lock in wager and answer'}
+        {isRevealed ? '🔓 Hide wager and answer' : '🔒 Reveal wager and answer'}
       </button>
       {error && <p className="has-text-danger">{error}</p>}
       <div className="buttons is-centered mt-3">
