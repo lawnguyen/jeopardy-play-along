@@ -236,7 +236,7 @@ const Modal: React.FC<{
   title: string;
   children: ReactNode;
 }> = ({ isActive, toggleModal, title, children }) => (
-  <div className={`modal ${isActive ? 'is-active' : ''}`}>
+  <div className={`modal ${isActive ? 'is-active' : ''} pl-4 pr-4`}>
     <div className="modal-background" onClick={toggleModal}></div>
     <div className="modal-card">
       <header className="modal-card-head">
@@ -267,25 +267,31 @@ const Modal: React.FC<{
 const App: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [view, setView] = useState<string>('regular');
-  const [isModalActive, setIsModalActive] = useState<boolean>(false);
+  const [isAppModalActive, setIsAppModalActive] = useState<boolean>(false);
+  const [isHowToPlayModalActive, setIsHowToPlayModalActive] =
+    useState<boolean>(false);
 
-  const toggleModal = () => {
-    setIsModalActive(!isModalActive);
+  const toggleAppModal = () => {
+    setIsAppModalActive(!isAppModalActive);
+  };
+
+  const toggleHowToPlayModal = () => {
+    setIsHowToPlayModalActive(!isHowToPlayModalActive);
   };
 
   return (
     <div className="container">
-      <div className="buttons  block">
-        <button className="button is-text" onClick={toggleModal}>
-          Use as an App
+      <div className="buttons is-centered mb-4">
+        <button className="button is-text" onClick={toggleHowToPlayModal}>
+          How to Play Along
         </button>
-        <button className="button is-text" onClick={toggleModal}>
+        <button className="button is-text" onClick={toggleAppModal}>
           Use as an App
         </button>
       </div>
       <Modal
-        isActive={isModalActive}
-        toggleModal={toggleModal}
+        isActive={isAppModalActive}
+        toggleModal={toggleAppModal}
         title="Use as an App"
       >
         <p className="block">
@@ -305,6 +311,43 @@ const App: React.FC = () => {
           src={AddToHomeScreenImage}
           alt="On iOS, click share and add to home screen"
         />
+      </Modal>
+      <Modal
+        isActive={isHowToPlayModalActive}
+        toggleModal={toggleHowToPlayModal}
+        title="How to Play Along"
+      >
+        <p className="block">
+          Welcome to Jeopardy Play Along! Play solo or with friends - set your
+          own ground rules and use this app to track your score.
+        </p>
+        <p className="block">Here are the basics:</p>
+        <ol className="block pl-4">
+          <li>Throw on an episode 📺</li>
+          <li>
+            Pick a Question Value - Click the dollar amount of the clue chosen.
+          </li>
+          <li>
+            Answer the Clue (in the form of a question)
+            <ul>
+              <li>
+                - Press the ✅ "Right" or the ❌ "Wrong" button to update your
+                score based on your answer.
+              </li>
+              <li>- Press the ⏭️ "Pass" button to skip.</li>
+            </ul>
+          </li>
+          <li>
+            In Daily Double - Click the 🎲 "Daily Double" button to enter a
+            wager. You may wager up to the maximum clue amount on the board if
+            your score is below it. A true Daily Double is when you wager your
+            entire score.
+          </li>
+          <li>
+            Repeat Until Final Jeopardy - In Final Jeopardy, enter a wager, lock
+            it in, and submit your answer.
+          </li>
+        </ol>
       </Modal>
       <h1
         className="title is-1 has-text-centered"
