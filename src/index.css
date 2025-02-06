@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-@media (max-width: 420px) {
+/* @media (max-width: 420px) {
   .emoji-only {
     display: inline-block;
   }
@@ -20,4 +20,4 @@ code {
   .text-only {
     display: none;
   }
-}
+} */
