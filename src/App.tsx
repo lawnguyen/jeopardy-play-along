@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import 'bulma/css/bulma.min.css';
 import AddToHomeScreenImage from './add-to-home-screen.png';
 
@@ -230,36 +230,24 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   );
 };
 
-const Modal: React.FC<{ isActive: boolean; toggleModal: () => void }> = ({
-  isActive,
-  toggleModal,
-}) => (
+const Modal: React.FC<{
+  isActive: boolean;
+  toggleModal: () => void;
+  title: string;
+  children: ReactNode;
+}> = ({ isActive, toggleModal, title, children }) => (
   <div className={`modal ${isActive ? 'is-active' : ''}`}>
     <div className="modal-background" onClick={toggleModal}></div>
     <div className="modal-card">
       <header className="modal-card-head">
-        <p className="modal-card-title">Use as an App</p>
+        <p className="modal-card-title">{title}</p>
         <button
           className="delete"
           aria-label="close"
           onClick={toggleModal}
         ></button>
       </header>
-      <section className="modal-card-body">
-        <p>
-          On iOS browsers, click the share button and select "Add to Home
-          Screen".
-        </p>
-        <img
-          className="image mt-4 mb-4"
-          src={AddToHomeScreenImage}
-          alt="On iOS, click share and add to home screen"
-        />
-        <p className="mt-4">
-          Similarly, on Android browsers, find the "Add to Home Screen" or
-          "Install App" option.
-        </p>
-      </section>
+      <section className="modal-card-body">{children}</section>
       <footer className="modal-card-foot is-flex is-justify-content-end">
         <div className="buttons">
           <button className="button" onClick={toggleModal}>
@@ -286,13 +274,38 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className=" mb-4">
+    <div className="container">
+      <div className="buttons  block">
+        <button className="button is-text" onClick={toggleModal}>
+          Use as an App
+        </button>
         <button className="button is-text" onClick={toggleModal}>
           Use as an App
         </button>
       </div>
-      <Modal isActive={isModalActive} toggleModal={toggleModal} />
+      <Modal
+        isActive={isModalActive}
+        toggleModal={toggleModal}
+        title="Use as an App"
+      >
+        <p className="block">
+          No need to download an app! You can use this web app as a standalone
+          app on your phone.
+        </p>
+        <p>
+          On iOS browsers, click the share button and select "Add to Home
+          Screen".
+        </p>
+        <p className="block">
+          Similarly, on Android browsers, find the "Add to Home Screen" or
+          "Install App" option.
+        </p>
+        <img
+          className="image block"
+          src={AddToHomeScreenImage}
+          alt="On iOS, click share and add to home screen"
+        />
+      </Modal>
       <h1
         className="title is-1 has-text-centered"
         style={{ fontWeight: 'bold' }}
