@@ -366,16 +366,16 @@ const App: React.FC = () => {
           Reset
         </button>
       </div>
-      <div className="tabs is-centered is-boxed">
+      <div className="tabs is-centered is-boxed is-fullwidth">
         <ul>
           <li className={view === 'regular' ? 'is-active' : ''}>
-            <a onClick={() => setView('regular')}>Jeopardy!</a>
+            <a onClick={() => setView('regular')}>Round One</a>
           </li>
           <li className={view === 'double' ? 'is-active' : ''}>
-            <a onClick={() => setView('double')}>Double Jeopardy!</a>
+            <a onClick={() => setView('double')}>Round Two</a>
           </li>
           <li className={view === 'final' ? 'is-active' : ''}>
-            <a onClick={() => setView('final')}>Final Jeopardy!</a>
+            <a onClick={() => setView('final')}>Final Round</a>
           </li>
         </ul>
       </div>
