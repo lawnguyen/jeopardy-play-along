@@ -69,8 +69,8 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
   };
 
   return (
-    <div className="section has-text-centered">
-      <h3 className="title is-4">{roundName}</h3>
+    <div className="section pt-4 has-text-centered">
+      <h4 className="title is-4">{roundName}</h4>
       <div className="buttons is-centered">
         {values.map((value) => (
           <button
@@ -140,6 +140,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
   const [wager, setWager] = useState<number>(0);
   const [answer, setAnswer] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [isLocked, setIsLocked] = useState<boolean>(false);
 
   const handleRight = () => {
     const maxWager = score;
@@ -149,6 +150,7 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
           ? 'Nothing to wager'
           : `Wager must be between 1 and ${maxWager}`
       );
+      setIsLocked(false);
       return;
     }
     setScore(score + wager);
@@ -163,21 +165,27 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
           ? 'Nothing to wager'
           : `Wager must be between 1 and ${maxWager}`
       );
+      setIsLocked(false);
       return;
     }
     setScore(score - wager);
     resetFinal();
   };
 
+  const handleLock = () => {
+    setIsLocked(true);
+  };
+
   const resetFinal = () => {
     setWager(0);
     setAnswer('');
     setError(null);
+    setIsLocked(false);
   };
 
   return (
-    <div className="section has-text-centered">
-      <h3 className="title is-4">Final Jeopardy!</h3>
+    <div className="section pt-4 has-text-centered">
+      <h4 className="title is-4">Final Jeopardy!</h4>
       <div className="field">
         <label className="label">Wager</label>
         <div className="control">
@@ -186,8 +194,16 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
             type="number"
             value={wager === 0 ? '' : wager}
             onChange={(e) => setWager(Number(e.target.value))}
+            disabled={isLocked}
           />
         </div>
+        <button
+          className="button is-small is-info is-light mt-2"
+          onClick={handleLock}
+          disabled={isLocked}
+        >
+          {isLocked ? '🔒 Wager locked' : '🔓 Lock in wager'}
+        </button>
       </div>
       <div className="field">
         <label className="label">Answer</label>
@@ -203,10 +219,10 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
       {error && <p className="has-text-danger">{error}</p>}
       <div className="buttons is-centered mt-3">
         <button className="button is-success is-large" onClick={handleRight}>
-          Right
+          ✅ Right
         </button>
         <button className="button is-danger is-large" onClick={handleWrong}>
-          Wrong
+          ❌ Wrong
         </button>
       </div>
     </div>
@@ -223,14 +239,14 @@ const App: React.FC = () => {
         className="title is-1 has-text-centered"
         style={{ fontWeight: 'bold' }}
       >
-        Total Score: {score}
+        Score: ${score}
       </h1>
       <div className="has-text-centered mb-4">
         <button
           className="button is-danger is-small"
           onClick={() => setScore(0)}
         >
-          Reset Score
+          Reset
         </button>
       </div>
       <div className="tabs is-centered is-boxed">
