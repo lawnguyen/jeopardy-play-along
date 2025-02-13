@@ -2,7 +2,7 @@
 
 Play live at https://jeopardy.lawngu.com
 
-A simple React app that lets you play along with Jeopardy! at home. Track your score, answer questions, and compete with friends!  
+A responsive React app that lets you play along with Jeopardy! at home. Track your score, answer questions, and compete with friends!  
 
 ## 🚀 Features  
 - **Regular Jeopardy & Double Jeopardy** – Select question values and update your score.  
@@ -26,11 +26,7 @@ Welcome to Jeopardy Play-Along! Play solo or with friends—set your own ground 
 5. **Repeat Until Final Jeopardy** – In Final Jeopardy, enter a wager, lock it in, and submit your answer.  
 
 ## 🛠 Installation & Setup  
-1. Clone the repository:  
-    ```sh
-    git clone https://github.com/your-username/jeopardy-playalong.git
-    cd jeopardy-playalong
-    ```
+1. Clone the repository
 2. Install dependencies:
     ```sh
     npm install
@@ -39,8 +35,7 @@ Welcome to Jeopardy Play-Along! Play solo or with friends—set your own ground 
     ```sh
     npm run start
     ```
-
-Open http://localhost:3000 in your browser.
+4. Open http://localhost:3000 in your browser.
 
 ## 🎯 Future Enhancements
 - Multiplayer game rooms with a buzzer system
