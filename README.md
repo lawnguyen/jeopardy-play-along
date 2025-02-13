@@ -1,5 +1,7 @@
 # Jeopardy! Play-Along  
 
+Play live at https://jeopardy.lawngu.com
+
 A simple React app that lets you play along with Jeopardy! at home. Track your score, answer questions, and compete with friends!  
 
 ## 🚀 Features  
