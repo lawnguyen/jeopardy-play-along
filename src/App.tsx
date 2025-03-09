@@ -38,10 +38,10 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
 
   const handleRight = () => {
     const maxWager = score < MAX_CLUE_VALUE ? MAX_CLUE_VALUE : score;
-    console.log(maxWager);
-    console.log(score);
-    if (isDailyDouble && (wager > maxWager || wager <= 0)) {
-      setError(`Wager must be between 1 and ${maxWager}`);
+    const minWager = 5; // Min wager is 5 for Daily Double
+
+    if (isDailyDouble && (wager > maxWager || wager < minWager)) {
+      setError(`Wager must be between ${minWager} and ${maxWager}`);
       return;
     }
     setScore(score + (isDailyDouble ? wager : currentValue!));
@@ -50,8 +50,9 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
 
   const handleWrong = () => {
     const maxWager = score < MAX_CLUE_VALUE ? MAX_CLUE_VALUE : score;
-    if (isDailyDouble && (wager > maxWager || wager <= 0)) {
-      setError(`Wager must be between 1 and ${maxWager}`);
+    const minWager = 5; // Min wager is 5 for Daily Double
+    if (isDailyDouble && (wager > maxWager || wager < minWager)) {
+      setError(`Wager must be between ${minWager} and ${maxWager}`);
       return;
     }
     setScore(score - (isDailyDouble ? wager : currentValue!));
@@ -149,11 +150,12 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
 
   const validateWagerAndAnswer = () => {
     const maxWager = score;
-    if (wager > maxWager || wager <= 0) {
+    const minWager = 0; // Min wager is 0 for Final Jeopardy
+    if (wager > maxWager || wager < minWager) {
       setError(
         maxWager === 0
           ? 'Nothing to wager'
-          : `Wager must be between 1 and ${maxWager}`
+          : `Wager must be between ${minWager} and ${maxWager}`
       );
       setIsRevealed(true);
       return false;
