@@ -98,8 +98,9 @@ const JeopardyRound: React.FC<JeopardyRoundProps> = ({
             <input
               className="input is-large"
               type="number"
+              min="0"
               value={wager === 0 ? '' : wager}
-              onChange={(e) => setWager(Number(e.target.value))}
+              onChange={(e) => setWager(Math.max(0, Number(e.target.value)))}
             />
           </div>
         </div>
@@ -215,9 +216,10 @@ const FinalJeopardy: React.FC<FinalJeopardyProps> = ({ setScore, score }) => {
         <div className="control">
           <input
             className="input is-large"
-            type={isRevealed ? 'text' : 'password'}
+            type={isRevealed ? 'number' : 'password'}
+            min="0"
             value={wager === 0 ? '' : wager}
-            onChange={(e) => setWager(Number(e.target.value))}
+            onChange={(e) => setWager(Math.max(0, Number(e.target.value)))}
             disabled={!isRevealed}
           />
         </div>
